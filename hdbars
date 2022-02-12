@@ -1,14 +1,45 @@
 #!/bin/bash
 
-## 
+# 
 # Produces test pattern with HD SMPTE Bars, local time, timecode, 
 # and a beep every 1 s with visually matching indicator
 #
 
+# MIT License
+# 
+# Copyright (c) 2022 Dimitri Tarassenko
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
+# Show help and quit with errorlevel 1
 help_and_bail() {
 cat << EOF
-usage: hdbars [options] <LogoFile.png> "<Title Text>" <outputFormat> <outputTarget>
+usage: hdbars [options] <outputFormat> <outputTarget>
+
+Outputs a SMPTE HD Test pattern with current time, timecode, custom logo
+and a 1-second beep with synchronized animation to the destination of 
+your choice: file or streaming output.
+
+Parameters:
+
+    outputFormat:   ffmpeg target format, run ffmpeg -formats for the list;
+    outputTarget:   target to send to;
 
 Options:
 
@@ -31,11 +62,10 @@ Options:
     --logo <filename>
             logo file to use, expected ~135 px wide
 
-Parameters:
+Examples:
 
-    Title Text:     Text line to imprint, up to 20 characters;
-    outputFormat:   ffmpeg target format, run ffmpeg -formats for the list;
-    outputTarget:   target to send to;
+    hdbars -h Hello! -d 10 mp4 hello.mp4
+    hdbars -h "29.97 Test" -f 30000/1001 flv rtmp://twitch.com/mychannel
 
 EOF
 exit 1
@@ -43,7 +73,6 @@ exit 1
 
 # Parse the command line params
 REALTIME="-re"
-FONT=/usr/share/fonts/dejavu/DejaVuSansMono-Bold.ttf
 LINE_1=`hostname -s`
 FRAME_RATE=60000/1001
 DROPFRAME=";"
@@ -95,10 +124,16 @@ BOX_X=(${SW}-$BOX_W)/2
 BOX_Y=(${SH}-$BOX_H)/3
 MARGIN_X=20
 MARGIN_Y=20
-FONT_SIZE=32
 LOGO_W=135
-TEXT_OFFSET=10
+
+# Text Related stuff
 LINE_H=44
+FONT_SIZE=32
+TEXT_OFFSET=10
+FONT=/usr/share/fonts/dejavu/DejaVuSansMono-Bold.ttf
+TIME_FORMAT="%b %d %X" # see https://strftime.org/
+
+# Logo - we'll use internal ffmpeg pattern if no PNG file was supplied
 if [ "$LOGO_SOURCE" == "" ]; then 
     LOGO_SOURCE="-f lavfi -i smptebars=${DURATION}size=${LOGO_W}x$(( LOGO_W * 3 / 4 )):rate=$FRAME_RATE"
 else
@@ -118,7 +153,7 @@ ffmpeg \
       [bglogo][3] overlay=x=$BOX_X+ if(mod(floor(t)\,2)\,(ceil(t)-t)\,1-(ceil(t)-t)) *($BOX_W-$SHUTTLE_W):y=$BOX_H+$BOX_Y-$SHUTTLE_H, \
       drawbox=enable=lte(t-floor(t)\,0.025)+gte(t-floor(t)\,0.975):c=#FFFFFFCC:t=fill:x=$BOX_X:y=$BOX_H+$BOX_Y-$SHUTTLE_H:w=${BOX_W}:h=${SHUTTLE_H},
       drawtext=text='$LINE_1':rate=$FRAME_RATE:x=$BOX_X+$MARGIN_X*2+$LOGO_W:y=$BOX_Y+$MARGIN_Y+$TEXT_OFFSET:fontfile=$FONT:fontsize=$FONT_SIZE:fontcolor=white:shadowcolor=black:shadowx=0:shadowy=0, \
-      drawtext=text='%{localtime\:%b %d %X}':rate=$FRAME_RATE:x=$BOX_X+$MARGIN_X*2+$LOGO_W:y=$BOX_Y+$MARGIN_Y+$TEXT_OFFSET+$LINE_H:fontfile=$FONT:fontsize=$FONT_SIZE:fontcolor=white:shadowcolor=black:shadowx=0:shadowy=0, \
+      drawtext=text='%{localtime\:$TIME_FORMAT}':rate=$FRAME_RATE:x=$BOX_X+$MARGIN_X*2+$LOGO_W:y=$BOX_Y+$MARGIN_Y+$TEXT_OFFSET+$LINE_H:fontfile=$FONT:fontsize=$FONT_SIZE:fontcolor=white:shadowcolor=black:shadowx=0:shadowy=0, \
       drawtext=timecode='00\:00\:00\\${DROPFRAME}00':rate=$FRAME_RATE:x=$BOX_X+$MARGIN_X*2+$LOGO_W:y=$BOX_Y+$MARGIN_Y+$TEXT_OFFSET+$LINE_H*2:fontfile=$FONT:fontsize=$FONT_SIZE:fontcolor=white:shadowcolor=black:shadowx=0:shadowy=0 \
     " \
     -c:v libx264 -preset veryfast -g 60 \
