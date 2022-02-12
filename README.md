@@ -15,6 +15,12 @@ Produces a video test pattern with
 
 ## Installation
 
+RPM:
 ```bash
 rpm -ivH http://github...
+```
+
+Any other Linux:
+```bash
+curl ...
 ```
