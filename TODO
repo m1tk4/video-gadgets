@@ -3,3 +3,7 @@ TODO:
 - builds for Deb/Ubuntu?
 - split container build into a separate action at github
 - make hdbars scalable?
+
+- figure out code signing
+
+- filter out files that don't influence packaging from CI triggers
