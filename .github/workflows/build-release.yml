@@ -21,7 +21,7 @@ jobs:
 
       - name: Build RPM package
         run: |
-          make BUILD_VERSION=${{ github.ref }}
+          make BUILD_VERSION=${{ github.ref_name }}
 
       - name: Create a Release
         uses: "marvinpinto/action-automatic-releases@latest"
