@@ -1,11 +1,11 @@
 IMAGE=m1tk4-video-gadgets-build
 DEFAULT_RPM=video-gadgets.rpm
+BUILD_VERSION?=v0.0.0
 
 build:
-	-mkdir noarch
-	-docker container rm $(IMAGE)-ctr
+	docker container rm $(IMAGE)-ctr
 	docker build --pull --rm --tag $(IMAGE) .
-	docker run -v $(PWD):/home/build --name $(IMAGE)-ctr $(IMAGE) rpmbuild -ba video-gadgets.spec
+	docker run -v $(PWD):/home/build --name $(IMAGE)-ctr $(IMAGE) rpmbuild --define "build_version $(subst v,,$(BUILD_VERSION))" -ba video-gadgets.spec
 
 clean:
 	-docker image rm --force $(IMAGE)

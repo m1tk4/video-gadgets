@@ -4,11 +4,13 @@
 %define _builddir ./
 %define _sourcedir ./
 %define _rpmdir ./
+%define _build_name_fmt %%{NAME}-%%{VERSION}.%%{ARCH}.rpm
+%{!?build_version: %define build_version 0.0.0}
 
 Summary: Collection of video tools
 Name: video-gadgets
-Version: 1.0.0
-Release: 1
+Version: %{build_version}
+Release: latest
 License: MIT
 Group: Development/Tools
 URL: https://github.com/m1tk4/video-gadgets
