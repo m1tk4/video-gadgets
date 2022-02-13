@@ -17,12 +17,12 @@ Produces a video test pattern with
 
 RPM:
 ```bash
-rpm -ivH https://github.com/m1tk4/video-gadgets/releases/download/v1.0.0/video-gadgets-1.0.0.noarch.rpm
+sudo rpm -ivH https://github.com/m1tk4/video-gadgets/releases/download/v1.0.0/video-gadgets-1.0.0.noarch.rpm
 ```
 
 Any other Linux:
 ```bash
-curl -o /usr/bin/hdbars -L \
+sudo curl -o /usr/bin/hdbars -L \
     https://github.com/m1tk4/video-gadgets/releases/download/v1.0.0/hdbars; \
-chmod a+x /usr/bin/hdbars
+sudo chmod a+x /usr/bin/hdbars
 ```
