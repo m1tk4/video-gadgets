@@ -13,6 +13,31 @@ Produces a video test pattern with
 
 ![hdbars screenshot](/assets/hdbars-screenshot.png)
 
+---
+## enc_profile
+Outputs one of the predefined FFMPEG encoding profiles - for use with FFMPEG transcoding
+tasks.
+
+Use in ffmpeg commands:
+```bash
+ffmpeg -i myfile.mov `enc_profile twitch` -f flv rtpm://twitch.com/something
+```
+
+List available profiles:
+```bash
+$ enc_profile --list
+ 
+Available encoding profiles:
+-----------------------------------------------------------------
+copy:          Copy (pass-through source)
+default:       Default (x264:veryfast/aac@128k)
+testpattern:   Test patterns (x264:veryfast/aac@24k)
+twitch:        Twitch (x264:veryfast@3M/aac@160k)
+wowza:         Wowza (x264:medium@1mbps/aac@128k)
+youtube:       Youtube (x264:veryfast@3M/aac@128k)
+```
+
+---
 ## Installation
 
 RPM:

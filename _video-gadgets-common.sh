@@ -39,6 +39,11 @@ typeset -A vg_profile=(
     [youtube.a]="-c:a aac -b:a 128k -ac 2 -ar 44100"
 )
 
+# Source other encofing profile config files
+for f in ./*.enc_profile.conf ./.enc_profile.conf /etc/enc_profile.conf ~/.enc_profile.conf; do
+    [ -f $f ] && source $f
+done
+
 # Quitting when things go wrong
 function vg_abort() {
    [ "$1" != "" ] && >&2 echo Error: $1

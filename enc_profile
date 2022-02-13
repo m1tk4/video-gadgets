@@ -61,6 +61,15 @@ Examples:
     enc_profile --list
     ffmpeg -i myfile.mpeg `enc_profile twitch` -f flv rtpm://twitch.com/me
 
+Additional profiles
+
+    enc_profile will also try to source profiles from:
+
+    - /etc/enc_profile.conf
+    - ./enc_profile.conf
+    - ./*.enc_profile.conf
+    - ~/.enc_profile.conf
+
 EOF
 exit 1
 } 
