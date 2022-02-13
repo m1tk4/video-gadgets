@@ -22,7 +22,7 @@ jobs:
       - name: Build RPM package
         run: |
           make
-          cp `ls noarch` video-gadgets.rpm 
+          cp `ls noarch/*.rpm` video-gadgets.rpm 
 
       - name: Create Release
         id: create_release
@@ -46,4 +46,3 @@ jobs:
           asset_name: video-gadgets.rpm
           asset_content_type: application/x-rpm
 
-          
