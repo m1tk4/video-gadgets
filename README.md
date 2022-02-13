@@ -13,7 +13,6 @@ Produces a video test pattern with
 
 ![hdbars screenshot](/assets/hdbars-screenshot.png)
 
----
 ## enc_profile
 Outputs one of the predefined FFMPEG encoding profiles - for use with FFMPEG transcoding
 tasks.
@@ -37,7 +36,6 @@ wowza:         Wowza (x264:medium@1mbps/aac@128k)
 youtube:       Youtube (x264:veryfast@3M/aac@128k)
 ```
 
----
 ## Installation
 
 RPM:
