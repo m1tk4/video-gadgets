@@ -3,8 +3,8 @@ DEFAULT_RPM=video-gadgets.rpm
 BUILD_VERSION?=v0.0.0
 
 build:
-	docker container rm $(IMAGE)-ctr
 	docker build --pull --rm --tag $(IMAGE) .
+	-docker rm $(IMAGE)-ctr
 	docker run -v $(PWD):/home/build --name $(IMAGE)-ctr $(IMAGE) rpmbuild --define "build_version $(subst v,,$(BUILD_VERSION))" -ba video-gadgets.spec
 
 clean:
