@@ -11,7 +11,7 @@ Produces a video test pattern with
 - an audible beep every 1 second and 
 - an animation with synchronized moving indicator:
 
-![hdbars screenshot](/assets/hdbars-screenshot.png)
+![hdbars screenshot](/assets/hdbars-screenshot.gif)
 
 ## enc_profile
 Outputs one of the predefined FFMPEG encoding profiles - for use with FFMPEG transcoding
