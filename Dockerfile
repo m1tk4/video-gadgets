@@ -1,6 +1,8 @@
-FROM rockylinux/rockylinux:8
+#
+#   This Dockerfile is only used in the build process on Github
+#
 
-LABEL maintainer="Dimitri Tarassenko <mitka@mitka.us>"
+FROM rockylinux/rockylinux:8
 
 ENV container=docker
 ENV HOMEDIR=/home/build
@@ -11,5 +13,4 @@ RUN \
 
 # Ensure the termination happens on container stop, cgroup, starting init
 WORKDIR $HOMEDIR
-#VOLUME ["$HOMEDIR"]
 CMD ["make"]

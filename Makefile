@@ -3,11 +3,9 @@ DEFAULT_RPM=video-gadgets.rpm
 
 build:
 	-mkdir noarch
-	-rm noarch/$(DEFAULT_RPM)
 	-docker container rm $(IMAGE)-ctr
 	docker build --pull --rm --tag $(IMAGE) .
 	docker run -v $(PWD):/home/build --name $(IMAGE)-ctr $(IMAGE) rpmbuild -ba video-gadgets.spec
-	cp -f noarch/*.rpm noarch/$(DEFAULT_RPM)
 
 clean:
 	-docker image rm --force $(IMAGE)

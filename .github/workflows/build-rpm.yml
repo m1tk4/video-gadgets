@@ -21,6 +21,14 @@ jobs:
           echo Nachinaju telepat!
           make
 
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: RPM
+          path: |
+            noarch/*
+          retention-days: 14
+
 
 #      - name: Upload artifact
 #        uses: actions/upload-artifact@v1.0.0
