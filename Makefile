@@ -12,4 +12,4 @@ clean:
 	-docker image prune --force
 	-docker container prune --force
 	-docker container rm $(IMAGE)-ctr
-	-rm -rf noarch *.mp4 *rpm
+	-rm -rf noarch *.mp4 *.rpm *.tgz

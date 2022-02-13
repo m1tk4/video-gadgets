@@ -1,0 +1,4 @@
+
+- builds for Deb/Ubuntu?
+- tarball install writeup
+- split container build into a separate action at github

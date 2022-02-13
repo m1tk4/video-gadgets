@@ -33,14 +33,21 @@ Requires: dejavu-sans-mono-fonts ffmpeg
 rm -rf %{buildroot}
 install --mode=755 -D hdbars                        %{buildroot}%{_bindir}/hdbars
 install --mode=755 -D enc_profile                   %{buildroot}%{_bindir}/enc_profile
-install --mode=644 -D _video-gadgets-common.sh      %{buildroot}%{_bindir}/_video-gadgets-common.sh
+install --mode=644 -D enc_profile.conf              %{buildroot}%{_sysconfdir}/enc_profile.conf
+install --mode=644 -D _video-gadgets-common.sh      %{buildroot}%{_bindir}/_video-gadgets-common.sh                                
 
 %clean
+# Make a tarball copy before cleanup
+here=`pwd`
+pushd %{buildroot}
+tar cvzf $here/video-gadgets-%{build_version}.tgz `find -type f`
+popd
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
 %{_bindir}/*
+%config(noreplace)%{_sysconfdir}/enc_profile.conf
 
 %changelog
 * Sat Feb 12 2022 Dimitri Tarassenko <mitka@mitka.us> 1.0-1
