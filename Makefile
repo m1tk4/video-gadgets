@@ -1,8 +1,6 @@
 IMAGE=m1tk4-video-gadgets-build
 DEFAULT_RPM=video-gadgets.rpm
-
-# If not passed from command line, this will read the last tag which is supposed to be something like v1.2.3
-BUILD_VERSION?=$(shell git describe --tags --abbrev=0)
+BUILD_VERSION?=v0.0.0
 
 build:
 	docker build --pull --rm --tag $(IMAGE) .
