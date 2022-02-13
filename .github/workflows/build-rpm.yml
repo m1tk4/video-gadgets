@@ -17,13 +17,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build RPM package
-        id: rpm
-        uses: naveenrajm7/rpmbuild@centos8
-        with:
-          spec_file: "video-gadgets.spec"
-          
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: Binary RPM
-          path: ${{ steps.rpm.outputs.rpm_dir_path }}
+        run: |
+          echo Nachinaju telepat'!
+          make
+
+
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v1.0.0
+#        with:
+#          name: Binary RPM
+#          path: ${{ steps.rpm.outputs.rpm_dir_path }}
