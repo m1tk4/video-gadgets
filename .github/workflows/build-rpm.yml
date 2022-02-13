@@ -7,6 +7,12 @@ name: Build RPM
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'LICENSE'
+      - 'README.md'
+      - '.gitignore'
+      - 'assets/**'
+  
   pull_request:
     branches: [ main ]
   
@@ -29,7 +35,7 @@ jobs:
         with:
           name: RPM
           path: |
-            video-gadgets-0.0.0.noarch.rpm
-            video-gadgets-0.0.0.tgz
+            video-gadgets-*.noarch.rpm
+            video-gadgets-*.tgz
           retention-days: 14
 
