@@ -30,9 +30,7 @@ jobs:
 
       - name: Build RPM package
         run: |
-          v="`git describe --tags --abbrev=0`"
-          echo "Last tag in Git:$v"
-          make BUILD_VERSION=$v
+          make
 
       - name: Archive Artifacts
         uses: actions/upload-artifact@v2
