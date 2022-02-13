@@ -13,3 +13,8 @@ clean:
 	-docker container prune --force
 	-docker container rm $(IMAGE)-ctr
 	-rm -rf noarch *.mp4 *.rpm *.tgz
+
+# Animation for README.md showing hdbars output
+hdbars-ani:
+	./hdbars -h m1tk4 -d 2 mp4 /tmp/tmp.hdbars.mkv
+	./gif_encode --width 640 --fps 30 /tmp/tmp.hdbars.mkv assets/hdbars-screenshot.gif

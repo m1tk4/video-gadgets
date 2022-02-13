@@ -31,10 +31,11 @@ Requires: dejavu-sans-mono-fonts ffmpeg
 
 %install
 rm -rf %{buildroot}
+install --mode=644 -D _video-gadgets-common.sh      %{buildroot}%{_bindir}/_video-gadgets-common.sh                                
 install --mode=755 -D hdbars                        %{buildroot}%{_bindir}/hdbars
+install --mode=755 -D gif_encode                    %{buildroot}%{_bindir}/gif_encode
 install --mode=755 -D enc_profile                   %{buildroot}%{_bindir}/enc_profile
 install --mode=644 -D enc_profile.conf              %{buildroot}%{_sysconfdir}/enc_profile.conf
-install --mode=644 -D _video-gadgets-common.sh      %{buildroot}%{_bindir}/_video-gadgets-common.sh                                
 
 %clean
 # Make a tarball copy before cleanup

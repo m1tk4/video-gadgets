@@ -36,6 +36,15 @@ wowza:         Wowza (x264:medium@1mbps/aac@128k)
 youtube:       Youtube (x264:veryfast@3M/aac@128k)
 ```
 
+## gif_encode
+
+Scales and encodes a source video file into .GIF, extracting the palette from the source file first.
+
+Sample:
+```bash
+$ gif_encode --width 640 --fps 10 source.mkv dest.gif
+```
+
 ## Installation
 
 RPM:

@@ -1,0 +1,88 @@
+#!/bin/bash
+
+# 
+# Encodes a source file to GIF, extracting the palette from the source
+# file first
+#
+# Shamelessly stolen from http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
+#
+
+#
+
+# MIT License
+# 
+# Copyright (c) 2022 Dimitri Tarassenko
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# include our common headers
+source "$(dirname "$0")/_video-gadgets-common.sh"
+
+# Show help and quit with errorlevel 1
+help_and_bail() {
+cat << EOF
+usage: gif_encode [options] <infputFile> <outputFile>
+
+Encodes a videofile to .GIF
+
+Options:
+
+    -w <int>
+    --width <int>
+            scale to specified width proportionally
+
+    -f
+    --fps  
+            framerate, default is 30
+
+Examples:
+
+    gif_encode -w 640 -f 24 a.mkv a.gif
+
+EOF
+exit 1
+} 
+
+if [ "$#" -lt 2 ]; then
+    help_and_bail
+fi
+
+FPS=30
+WIDTH=-1
+while [ ${1:0:1} == "-" ]
+do
+    case $1 in
+        -f|--fps)
+            FPS=$2
+            shift 2
+            ;;
+        -w|--width)
+            WIDTH=$2
+            shift 2
+            ;;
+        *)
+            help_and_bail
+            ;;
+    esac
+done
+
+filters="fps=$FPS,scale=$WIDTH:-1:flags=lanczos"
+palette="/tmp/palette.png"
+ffmpeg -v warning -i $1 -vf "$filters,palettegen" -y $palette
+ffmpeg -v warning -i $1 -i $palette -lavfi "$filters [x]; [x][1:v] paletteuse" -y $2
