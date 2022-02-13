@@ -5,7 +5,7 @@ BUILD_VERSION?=v0.0.0
 build:
 	docker build --pull --rm --tag $(IMAGE) .
 	-docker rm $(IMAGE)-ctr
-	docker run -v $(PWD):/home/build --name $(IMAGE)-ctr $(IMAGE) rpmbuild --define "build_version $(subst refs/tags/v,,$(BUILD_VERSION)))" -ba video-gadgets.spec
+	docker run -v $(PWD):/home/build --name $(IMAGE)-ctr $(IMAGE) rpmbuild --define "build_version $(subst refs/tags/v,,$(BUILD_VERSION))" -ba video-gadgets.spec
 
 clean:
 	-docker image rm --force $(IMAGE)

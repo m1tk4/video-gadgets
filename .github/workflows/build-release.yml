@@ -21,6 +21,8 @@ jobs:
 
       - name: Build RPM package
         run: |
+          echo ref: '${{ github.ref }}'
+          echo ref_name: '${{ github.ref_name }}'
           make BUILD_VERSION=${{ github.ref_name }}
 
       - name: Create a Release
