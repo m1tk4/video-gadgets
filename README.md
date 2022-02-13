@@ -7,7 +7,8 @@ Produces a video test pattern with
 - HD SMPTE Bars, 
 - hostname (or custom text header) 
 - local time, 
-- timecode, 
+- timecode,
+- custom logo (optional), 
 - an audible beep every 1 second and 
 - an animation with synchronized moving indicator:
 
