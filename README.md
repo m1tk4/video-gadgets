@@ -17,7 +17,7 @@ Produces a video test pattern with
 
 RPM:
 ```bash
-sudo rpm -ivH https://github.com/m1tk4/video-gadgets/releases/download/v1.0.0/video-gadgets-1.0.0.noarch.rpm
+sudo rpm -ivh https://github.com/m1tk4/video-gadgets/releases/download/v1.0.0/video-gadgets-1.0.0.noarch.rpm
 ```
 
 Any other Linux:
