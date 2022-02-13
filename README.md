@@ -22,7 +22,7 @@ rpm -ivH https://github.com/m1tk4/video-gadgets/releases/download/v1.0.0/video-g
 
 Any other Linux:
 ```bash
-curl -o /usr/bin/hdbars \
+curl -o /usr/bin/hdbars -L \
     https://github.com/m1tk4/video-gadgets/releases/download/v1.0.0/hdbars; \
 chmod a+x /usr/bin/hdbars
 ```
