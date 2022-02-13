@@ -42,12 +42,13 @@ youtube:       Youtube (x264:veryfast@3M/aac@128k)
 
 RPM:
 ```bash
-sudo rpm -ivh https://github.com/m1tk4/video-gadgets/releases/download/v1.0.0/video-gadgets-1.0.0.noarch.rpm
+sudo rpm -ivh https://github.com/m1tk4/video-gadgets/releases/download/v1.1.0/video-gadgets-1.1.0.noarch.rpm
 ```
 
 Any other Linux:
 ```bash
-sudo curl -o /usr/bin/hdbars -L \
-    https://github.com/m1tk4/video-gadgets/releases/download/v1.0.0/hdbars; \
-sudo chmod a+x /usr/bin/hdbars
+cd /;
+sudo curl -L \
+    https://github.com/m1tk4/video-gadgets/releases/download/v1.1.0/hdbars \
+    | tar xvzf
 ```
