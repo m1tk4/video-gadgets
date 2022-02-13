@@ -12,6 +12,7 @@ on:
       - 'README.md'
       - '.gitignore'
       - 'assets/**'
+      - 'TODO'
   
   pull_request:
     branches: [ main ]
