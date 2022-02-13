@@ -1,3 +1,7 @@
+#
+#   Builds the RPM and keeps the ZIP
+#
+
 name: Build RPM
 
 on:
@@ -5,6 +9,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -17,9 +22,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build RPM package
-        run: |
-          echo Nachinaju telepat!
-          make
+        run: make
 
       - name: Archive Artifacts
         uses: actions/upload-artifact@v2
@@ -29,9 +32,3 @@ jobs:
             noarch/*
           retention-days: 14
 
-
-#      - name: Upload artifact
-#        uses: actions/upload-artifact@v1.0.0
-#        with:
-#          name: Binary RPM
-#          path: ${{ steps.rpm.outputs.rpm_dir_path }}
