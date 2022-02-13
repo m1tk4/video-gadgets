@@ -28,7 +28,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: RPM
-          path: |
-            noarch/*
+          path: video-gadgets-0.0.0.noarch.rpm
           retention-days: 14
 
