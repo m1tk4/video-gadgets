@@ -45,7 +45,7 @@ sudo rpm -ivh https://github.com/m1tk4/video-gadgets/releases/download/v1.1.0/vi
 
 Any other Linux:
 ```bash
-cd /;
+cd /; \
 sudo curl -L \
     https://github.com/m1tk4/video-gadgets/releases/download/v1.1.0/hdbars \
     | tar xvzf
