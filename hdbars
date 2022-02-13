@@ -27,6 +27,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# include our common headers
+source "$(dirname "$0")/_video-gadgets-common.sh"
+
 # Show help and quit with errorlevel 1
 help_and_bail() {
 cat << EOF
@@ -62,10 +65,19 @@ Options:
     --logo <filename>
             logo file to use, expected ~135 px wide
 
+    -p <profilename>
+    --profile <profilename>
+            set the encoding profile to use. Default is "testpattern".
+            Run hdbars -profiles for the full list
+
+    -profiles
+            List the available encoding profiles
+
 Examples:
 
     hdbars -h Hello! -d 10 mp4 hello.mp4
     hdbars -h "29.97 Test" -f 30000/1001 flv rtmp://twitch.com/mychannel
+    hdbars
 
 EOF
 exit 1
@@ -76,6 +88,7 @@ REALTIME="-re"
 LINE_1=`hostname -s`
 FRAME_RATE=60000/1001
 DROPFRAME=";"
+ENC_PROFILE="testpattern"
 while [ ${1:0:1} == "-" ]
 do
     case $1 in
@@ -102,6 +115,14 @@ do
             # fix the timecode separator for whole framerates
             [[ "$FRAME_RATE" =~ ^[0-9]+$ ]] && DROPFRAME=":"
             shift 2
+            ;;
+        -p|--profile)
+            ENC_PROFILE=$2
+            shift 2
+            ;;
+        -profiles)
+            $(dirname "$0")/enc_profile --list
+            exit 0;
             ;;
         *)
             help_and_bail
@@ -156,9 +177,8 @@ ffmpeg \
       drawtext=text='%{localtime\:$TIME_FORMAT}':rate=$FRAME_RATE:x=$BOX_X+$MARGIN_X*2+$LOGO_W:y=$BOX_Y+$MARGIN_Y+$TEXT_OFFSET+$LINE_H:fontfile=$FONT:fontsize=$FONT_SIZE:fontcolor=white:shadowcolor=black:shadowx=0:shadowy=0, \
       drawtext=timecode='00\:00\:00\\${DROPFRAME}00':rate=$FRAME_RATE:x=$BOX_X+$MARGIN_X*2+$LOGO_W:y=$BOX_Y+$MARGIN_Y+$TEXT_OFFSET+$LINE_H*2:fontfile=$FONT:fontsize=$FONT_SIZE:fontcolor=white:shadowcolor=black:shadowx=0:shadowy=0 \
     " \
-    -c:v libx264 -preset veryfast -g 60 \
-    -c:a aac -ac 2 -ar 44100 -b:a 32k \
     -y \
+    `vg_profile $ENC_PROFILE` \
     $TOTAL_DURATION \
     -f $OUTPUT_FORMAT \
     $TARGET

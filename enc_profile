@@ -1,0 +1,107 @@
+#!/bin/bash
+
+# 
+# Manages FFMPEG Encoding profiles
+#
+
+# MIT License
+# 
+# Copyright (c) 2022 Dimitri Tarassenko
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# include our common headers
+source "$(dirname "$0")/_video-gadgets-common.sh"
+
+# Show help and quit with errorlevel 1
+help_and_bail() {
+cat << EOF
+usage: enc_profile [options] <profileName>
+
+Outputs the encoding profiles suitable for use in FFMPEG.
+
+Parameters:
+
+    profileName:    one of the profile names, run 
+                    enc_profile -l
+                    to list all
+
+Options:
+
+    -l
+    --list
+            list all profiles
+
+    -a
+    --audio  
+            output the audio part of the profile
+
+    -v
+    --video
+            output the video part of the profile    
+
+Examples:
+
+    enc_profile --list
+    ffmpeg -i myfile.mpeg `enc_profile twitch` -f flv rtpm://twitch.com/me
+
+EOF
+exit 1
+} 
+
+if [ "$#" -lt 1 ]; then
+    help_and_bail
+fi
+
+# Parse the command line params
+while [ ${1:0:1} == "-" ]
+do
+    case $1 in
+        -l|--list)
+            echo " "
+            echo "Available encoding profiles:"
+            echo "-----------------------------------------------------------------"
+            vg_list_profiles --names
+            echo " "
+            exit 0;
+            ;;
+        -a|--audio)
+            A="a"
+            shift 1
+            ;;
+        -v|--video)
+            V="v"
+            shift 1
+            ;;
+        *)
+            help_and_bail
+            ;;
+    esac
+done
+
+case "$A$V" in
+    a)
+        vg_profile $1 v
+        ;;
+    v)
+        vg_profile $1 v
+        ;;
+    ""|av)
+        vg_profile $1
+esac
