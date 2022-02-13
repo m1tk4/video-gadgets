@@ -1,18 +1,24 @@
 # video-gadgets
 Various scripts and configurations for FFMPEG, TSDuck and other video processing tools.
 
-## hdbars 
-Produces a video test pattern with 
+- [enc_profile](#enc_profile): shortcuts for popular encoding profiles for `ffmpeg`
+- [gif_encode](#gif_encode): convert video files to GIF
+- [hdbars](#hdbars): send test pattern to a file or streaming destination
 
-- HD SMPTE Bars, 
-- hostname (or custom text header) 
-- local time, 
-- timecode,
-- custom logo (optional), 
-- an audible beep every 1 second and 
-- an animation with synchronized moving indicator:
+## Installation
 
-![hdbars screenshot](/assets/hdbars-screenshot.gif)
+RPM:
+```bash
+sudo rpm -ivh https://github.com/m1tk4/video-gadgets/releases/download/v1.1.0/video-gadgets-1.1.0.noarch.rpm
+```
+
+Any other Linux:
+```bash
+cd /; \
+sudo curl -L \
+    https://github.com/m1tk4/video-gadgets/releases/download/v1.1.0/hdbars \
+    | tar xvzf
+```
 
 ## enc_profile
 Outputs one of the predefined FFMPEG encoding profiles - for use with FFMPEG transcoding
@@ -45,18 +51,15 @@ Sample:
 ```bash
 $ gif_encode --width 640 --fps 10 source.mkv dest.gif
 ```
+## hdbars 
+Produces a video test pattern with 
 
-## Installation
+- HD SMPTE Bars, 
+- hostname (or custom text header) 
+- local time, 
+- timecode,
+- custom logo (optional), 
+- an audible beep every 1 second and 
+- an animation with synchronized moving indicator:
 
-RPM:
-```bash
-sudo rpm -ivh https://github.com/m1tk4/video-gadgets/releases/download/v1.1.0/video-gadgets-1.1.0.noarch.rpm
-```
-
-Any other Linux:
-```bash
-cd /; \
-sudo curl -L \
-    https://github.com/m1tk4/video-gadgets/releases/download/v1.1.0/hdbars \
-    | tar xvzf
-```
+![hdbars screenshot](/assets/hdbars-screenshot.gif)
