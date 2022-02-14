@@ -18,6 +18,7 @@ DEB:
 curl -sLO \
     https://github.com/m1tk4/video-gadgets/releases/download/v1.2.0/video-gadgets_1.2.0_all.deb \ 
     && sudo dpkg -i video-gadgets_1.2.0_all.deb 
+```
 
 Any other Linux:
 ```bash
