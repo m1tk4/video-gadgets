@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build RPM package
+      - name: Build Packages
         run: |
           echo ref: '${{ github.ref }}'
           echo ref_name: '${{ github.ref_name }}'
