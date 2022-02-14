@@ -8,7 +8,7 @@ DEB_BUILD_CMD=
 build ::
 	docker build --pull --rm --tag $(DEB_DOCK_IMG) --file pkg/deb/Dockerfile .
 	-@docker rm --force $(DEB_DOCK_CTR)
-	docker run -it -v $(PWD):/home/build --user="`id -u`:`id -g`" \
+	docker run -v $(PWD):/home/build --user="`id -u`:`id -g`" \
 		--name $(DEB_DOCK_CTR) $(DEB_DOCK_IMG) \
 		/usr/bin/bash pkg/deb/build.sh $(B_VERSION)
 
