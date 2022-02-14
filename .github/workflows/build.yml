@@ -35,7 +35,7 @@ jobs:
       - name: Archive Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: video-gatgets
+          name: video-gadgets
           path: |
             dist/video-gadgets-*.noarch.rpm
             dist/video-gadgets_*.deb
