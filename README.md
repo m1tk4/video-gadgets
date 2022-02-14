@@ -9,14 +9,21 @@ Various scripts and configurations for FFMPEG, TSDuck and other video processing
 
 RPM:
 ```bash
-sudo rpm -ivh https://github.com/m1tk4/video-gadgets/releases/download/v1.1.0/video-gadgets-1.1.0.noarch.rpm
+sudo rpm -ivh \
+    https://github.com/m1tk4/video-gadgets/releases/download/v1.2.0/video-gadgets-1.2.0.noarch.rpm
 ```
+
+DEB:
+```bash
+curl -sLO \
+    https://github.com/m1tk4/video-gadgets/releases/download/v1.2.0/video-gadgets_1.2.0_all.deb \ 
+    && dpkg -i video-gadgets_1.2.0_all.deb 
 
 Any other Linux:
 ```bash
 cd /; \
 sudo curl -L \
-    https://github.com/m1tk4/video-gadgets/releases/download/v1.1.0/hdbars \
+    https://github.com/m1tk4/video-gadgets/releases/download/v1.2.0/hdbars \
     | tar xvzf
 ```
 
