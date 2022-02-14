@@ -2,3 +2,4 @@ noarch/*
 *.mp4
 *.rpm
 *.tgz
+*.deb

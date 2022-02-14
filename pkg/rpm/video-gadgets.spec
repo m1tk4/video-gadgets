@@ -4,7 +4,7 @@
 %define _builddir ./
 %define _sourcedir ./
 %define _rpmdir ./
-%define _build_name_fmt %%{NAME}-%%{VERSION}.%%{ARCH}.rpm
+%define _build_name_fmt dist/%%{NAME}-%%{VERSION}.%%{ARCH}.rpm
 %{!?build_version: %define build_version 0.0.0}
 
 Summary: Collection of video tools
@@ -31,7 +31,7 @@ Requires: dejavu-sans-mono-fonts ffmpeg
 
 %install
 rm -rf %{buildroot}
-install --mode=644 -D _video-gadgets-common.sh      %{buildroot}%{_bindir}/_video-gadgets-common.sh                                
+install --mode=644 -D _video-gadgets-common.sh      %{buildroot}%{_bindir}/_video-gadgets-common.sh
 install --mode=755 -D hdbars                        %{buildroot}%{_bindir}/hdbars
 install --mode=755 -D gif_encode                    %{buildroot}%{_bindir}/gif_encode
 install --mode=755 -D enc_profile                   %{buildroot}%{_bindir}/enc_profile
@@ -41,7 +41,7 @@ install --mode=644 -D enc_profile.conf              %{buildroot}%{_sysconfdir}/e
 # Make a tarball copy before cleanup
 here=`pwd`
 pushd %{buildroot}
-tar cvzf $here/video-gadgets-%{build_version}.tgz `find -type f`
+tar cvzf $here/dist/video-gadgets-%{build_version}.tgz `find -type f`
 popd
 rm -rf %{buildroot}
 

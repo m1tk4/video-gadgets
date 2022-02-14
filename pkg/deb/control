@@ -1,0 +1,11 @@
+Package: video-gadgets
+Version: 999.999.999
+Architecture: all
+Maintainer: root <root@3dc1e915cc7a>
+Installed-Size: 27
+Section: alien
+Priority: extra
+Description: Collection of video tools
+ Collection of video tools
+ .
+ (Converted from a rpm package by alien version 8.95.)

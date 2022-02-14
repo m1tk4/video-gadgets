@@ -1,18 +1,19 @@
-IMAGE=m1tk4-video-gadgets-build
-DEFAULT_RPM=video-gadgets.rpm
+
+# Get the BUILD_VERSION from command line or set to 0.0.0
 BUILD_VERSION?=v0.0.0
+B_VERSION:=$(subst v,,$(BUILD_VERSION))
 
-build:
-	docker build --pull --rm --tag $(IMAGE) .
-	-docker rm $(IMAGE)-ctr
-	docker run -v $(PWD):/home/build --name $(IMAGE)-ctr $(IMAGE) rpmbuild --define "build_version $(subst v,,$(BUILD_VERSION))" -ba video-gadgets.spec
+# Entry point
+build_all: build
 
-clean:
-	-docker image rm --force $(IMAGE)
-	-docker image prune --force
-	-docker container prune --force
-	-docker container rm $(IMAGE)-ctr
-	-rm -rf noarch *.mp4 *.rpm *.tgz
+# Note: the order of these is meaningful as .deb builds rely on RPM builds
+# to collecti all the right files for them
+# build recipes actually will be there
+include pkg/rpm/Makefile
+include pkg/deb/Makefile
+
+clean ::
+	-@rm -rf *.mp4
 
 # Animation for README.md showing hdbars output
 hdbars-ani:
