@@ -37,8 +37,8 @@ jobs:
         with:
           name: video-gatgets
           path: |
-            video-gadgets-*.noarch.rpm
-            video-gadgets-*.deb
-            video-gadgets-*.tgz
+            dist/video-gadgets-*.noarch.rpm
+            dist/video-gadgets_*.deb
+            dist/video-gadgets-*.tgz
           retention-days: 14
 

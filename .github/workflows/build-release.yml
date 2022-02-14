@@ -31,7 +31,8 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            video-gadgets-*.rpm
-            video-gadgets-*.tgz
+            dist/video-gadgets-*.rpm
+            dist/video-gadgets_*.deb
+            dist/video-gadgets-*.tgz
 
 
