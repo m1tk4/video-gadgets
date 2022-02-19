@@ -34,8 +34,8 @@ rm -rf %{buildroot}
 install --mode=644 -D _video-gadgets-common.sh      %{buildroot}%{_bindir}/_video-gadgets-common.sh
 install --mode=755 -D hdbars                        %{buildroot}%{_bindir}/hdbars
 install --mode=755 -D gif_encode                    %{buildroot}%{_bindir}/gif_encode
-install --mode=755 -D enc_profile                   %{buildroot}%{_bindir}/enc_profile
-install --mode=644 -D enc_profile.conf              %{buildroot}%{_sysconfdir}/enc_profile.conf
+install --mode=755 -D vgp                           %{buildroot}%{_bindir}/vgp
+install --mode=644 -D vg_profile.conf               %{buildroot}%{_sysconfdir}/vg_profile.conf
 
 %clean
 # Make a tarball copy before cleanup
@@ -48,8 +48,10 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{_bindir}/*
-%config(noreplace)%{_sysconfdir}/enc_profile.conf
+%config(noreplace)%{_sysconfdir}/vg_profile.conf
 
 %changelog
+* Fri Feb 18 2022 Dimitri Tarassenko <mitka@mitka.us> 1.0-2
+- Reworked profiles
 * Sat Feb 12 2022 Dimitri Tarassenko <mitka@mitka.us> 1.0-1
 - First Build
