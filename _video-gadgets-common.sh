@@ -37,10 +37,16 @@ typeset -A vg_profile=(
     [youtube]="Youtube (x264:veryfast@3M/aac@128k)"
     [youtube.v]="-c:v libx264 -preset veryfast -pix_fmt yuv420p -g 60 -x264-params keyint=60:min-keyint=60:scenecut=-1 -b:v 3000k -bufsize 6000k -crf 28"
     [youtube.a]="-c:a aac -b:a 128k -ac 2 -ar 44100"
+
+    # Play on the screen
+    [play]="Local screen playback"
+    [play.v]="-c:v rawvideo"
+    [play.a]="-c:a pcm_s32le"
+    [play.o]="-f sdl '' -f pulse ''"
 )
 
 # Source other encofing profile config files
-for f in ./*.enc_profile.conf ./.enc_profile.conf /etc/enc_profile.conf ~/.enc_profile.conf; do
+for f in ./*.vg_profile.conf ./.vg_profile.conf /etc/vg_profile.conf ~/.vg_profile.conf; do
     [ -f $f ] && source $f
 done
 
@@ -63,17 +69,5 @@ function vg_list_profiles() {
             *)
                 ;;
         esac
-    done | grep -v \\.[va]$ | grep -v \\.[va]\: | sort
-}
-
-# return video encoding profile
-# $1 : profile id
-# $2 : profile type, a|v| - return both if empty
-function vg_profile() {
-    [ "${vg_profile[$1]}" == "" ] && vg_abort "encoding profile '$1' does not exist."
-    if [ "$2" == "" ]; then
-        echo "${vg_profile[$1.v]} ${vg_profile[$1.a]}"
-    else 
-        echo "${vg_profile[$1.$2]}"
-    fi
+    done | grep -v \\.[vafo]$ | grep -v \\.[vafo]\: | sort
 }
