@@ -38,11 +38,18 @@ typeset -A vg_profile=(
     [youtube.v]="-c:v libx264 -preset veryfast -pix_fmt yuv420p -g 60 -x264-params keyint=60:min-keyint=60:scenecut=-1 -b:v 3000k -bufsize 6000k -crf 28"
     [youtube.a]="-c:a aac -b:a 128k -ac 2 -ar 44100"
 
-    # Play on the screen
-    [play]="Local screen playback"
-    [play.v]="-c:v rawvideo"
-    [play.a]="-c:a pcm_s32le"
-    [play.o]="-f sdl '' -f pulse ''"
+    # Play locally in a window
+    [window]="Local screen playback"
+    [window.v]="-c:v rawvideo"
+    [window.a]="-c:a pcm_s32le"
+    [window.o]="-window_enable_quit 1 -f sdl SDLPlayback -f pulse PulseAudio"
+
+    # Play locally full-screen
+    [fullscreen]="Local screen playback"
+    [fullscreen.v]="-c:v rawvideo"
+    [fullscreen.a]="-c:a pcm_s32le"
+    [fullscreen.o]="-window_fullscreen 1 -window_enable_quit 1 -f sdl SDLPlayback -f pulse PulseAudio"
+
 )
 
 # Source other encofing profile config files

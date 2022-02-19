@@ -33,7 +33,7 @@ source "$(dirname "$0")/_video-gadgets-common.sh"
 # Show help and quit with errorlevel 1
 help_and_bail() {
 cat << EOF
-usage: hdbars [options] [<outputFormat>] <outputTarget>
+usage: hdbars [options] <outputFormat> <outputTarget>
 
 Outputs a SMPTE HD Test pattern with current time, timecode, custom logo
 and a 1-second beep with synchronized animation to the destination of 
@@ -41,10 +41,7 @@ your choice: file or streaming output.
 
 Parameters:
 
-    outputFormat:   ffmpeg target format, run ffmpeg -formats for the list,
-                    required if you don't specify the profile or it the
-                    profile does not define output
-
+    outputFormat:   ffmpeg target format, run ffmpeg -formats for the list;
     outputTarget:   target to send to;
 
 Options:
@@ -91,8 +88,8 @@ REALTIME="-re"
 LINE_1=`hostname -s`
 FRAME_RATE=60000/1001
 DROPFRAME=";"
-
-while [ "${1:0:1}" == "-" ]
+ENC_PROFILE="testpattern"
+while [ ${1:0:1} == "-" ]
 do
     case $1 in
         -d|--duration)
@@ -124,7 +121,7 @@ do
             shift 2
             ;;
         -profiles)
-            $(dirname "$0")/vgp --list
+            $(dirname "$0")/enc_profile --list
             exit 0;
             ;;
         *)
@@ -133,24 +130,9 @@ do
     esac
 done
 
-if [ "$ENC_PROFILE" == "" ]; then
-    [ "$#" -lt 2 ] && help_and_bail;
-    ENC_PROFILE="testpattern"
-fi
-ENC_PROFILE=`$(dirname "$0")/vgp $ENC_PROFILE`
-
-# check if profile specifies output, and add -f if it doesn't
-if [[ "$ENC_PROFILE" == *" -f "* ]]; then
-    OUTPUT="$*"
-else
-    [ "$*" == "" ] && vg_abort "expected format and target"
-    OUTPUT="-f $*"
-fi
-
-#echo "ENC: $ENC_PROFILE"
-#echo "OUT: $OUTPUT"
-#exit 1
-
+[ "$#" -lt 2 ] && help_and_bail;
+OUTPUT_FORMAT=$1
+TARGET=$2
 
 # Various Geometry Things
 SW=1280
@@ -182,12 +164,10 @@ fi
 # Run FFMPEG
 ffmpeg \
     $REALTIME \
-    -y \
     -f lavfi -i "smptehdbars=${DURATION}size=${SW}x${SH}:rate=$FRAME_RATE" \
     -f lavfi -i "sine=${DURATION}frequency=220:beep_factor=8:sample_rate=44100" \
     $LOGO_SOURCE \
     -f lavfi -i "color=r=$FRAME_RATE:c=#FFFFFF@0.6:s=${SHUTTLE_W}x${SHUTTLE_H},format=rgba" \
-    $TOTAL_DURATION \
     -filter_complex " \
       drawbox=c=#000000@0.2:w=${BOX_W}:h=${BOX_H}:x=$BOX_X:y=$BOX_Y:t=fill [bg]; \
       [bg][2] overlay=x=$BOX_X+$MARGIN_X:y=$BOX_Y+$MARGIN_Y [bglogo]; \
@@ -197,5 +177,8 @@ ffmpeg \
       drawtext=text='%{localtime\:$TIME_FORMAT}':rate=$FRAME_RATE:x=$BOX_X+$MARGIN_X*2+$LOGO_W:y=$BOX_Y+$MARGIN_Y+$TEXT_OFFSET+$LINE_H:fontfile=$FONT:fontsize=$FONT_SIZE:fontcolor=white:shadowcolor=black:shadowx=0:shadowy=0, \
       drawtext=timecode='00\:00\:00\\${DROPFRAME}00':rate=$FRAME_RATE:x=$BOX_X+$MARGIN_X*2+$LOGO_W:y=$BOX_Y+$MARGIN_Y+$TEXT_OFFSET+$LINE_H*2:fontfile=$FONT:fontsize=$FONT_SIZE:fontcolor=white:shadowcolor=black:shadowx=0:shadowy=0 \
     " \
-    $ENC_PROFILE \
-    $OUTPUT
+    -y \
+    -c:v rawvideo \
+    $TOTAL_DURATION \
+    -f $OUTPUT_FORMAT \
+    $TARGET
