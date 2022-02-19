@@ -28,28 +28,6 @@ sudo curl -L \
     | tar xvzf
 ```
 
-## enc_profile
-Outputs one of the predefined FFMPEG encoding profiles - for use with FFMPEG transcoding
-tasks.
-
-Use in ffmpeg commands:
-```bash
-ffmpeg -i myfile.mov `enc_profile twitch` -f flv rtpm://twitch.com/something
-```
-
-List available profiles:
-```bash
-$ enc_profile --list
- 
-Available encoding profiles:
------------------------------------------------------------------
-copy:          Copy (pass-through source)
-default:       Default (x264:veryfast/aac@128k)
-testpattern:   Test patterns (x264:veryfast/aac@24k)
-twitch:        Twitch (x264:veryfast@3M/aac@160k)
-wowza:         Wowza (x264:medium@1mbps/aac@128k)
-youtube:       Youtube (x264:veryfast@3M/aac@128k)
-```
 
 ## gif_encode
 
@@ -71,3 +49,39 @@ Produces a video test pattern with
 - an animation with synchronized moving indicator:
 
 ![hdbars screenshot](/assets/hdbars-screenshot.gif)
+
+## vgp
+Outputs one of the predefined FFMPEG encoding profiles - for use with FFMPEG transcoding
+tasks.
+
+Use in ffmpeg commands:
+```bash
+ffmpeg -i myfile.mov `vgp twitch` -f flv rtpm://twitch.com/something
+ffmpeg -i myfile.mov `vgp fullscreen`
+```
+
+List available profiles:
+```bash
+$ vgp --list
+ 
+Available encoding profiles:
+-----------------------------------------------------------------
+copy:          Copy (pass-through)
+default:       Default (x264:veryfast/aac@128k)
+fullscreen:    Local screen playback
+raw:           Raw
+testpattern:   Test patterns (x264:veryfast/aac@24k)
+twitch:        Twitch (x264:veryfast@3M/aac@160k)
+window:        Local screen playback
+wowza:         Wowza (x264:medium@1mbps/aac@128k)
+youtube:       Youtube (x264:veryfast@3M/aac@128k)
+```
+
+You can add custom profiles by editing / adding the following files:
+
+- `/etc/vg_profile.conf`
+- `./vg_profile.conf`
+- `./*.vg_profile.conf`
+- `~/.vg_profile.conf`
+
+See `vg_profile.conf` for syntax samples.
