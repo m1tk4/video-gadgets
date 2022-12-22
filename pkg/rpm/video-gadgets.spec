@@ -18,7 +18,7 @@ URL: https://github.com/m1tk4/video-gadgets
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch: noarch
 
-Requires: dejavu-sans-mono-fonts ffmpeg
+Requires: dejavu-sans-mono-fonts ffmpeg fontconfig
 
 %description
 %{summary}

@@ -55,6 +55,9 @@ Options:
             https://ffmpeg.org/ffmpeg-utils.html#time-duration-syntax),
             output will be paced in realtime if duration is not 
             supplied
+
+    -1080
+            output 1080p (720p is the default)
     
     -h <header>
     --header <header>
@@ -91,7 +94,8 @@ REALTIME="-re"
 LINE_1=`hostname -s`
 FRAME_RATE=60000/1001
 DROPFRAME=";"
-
+SW=1280
+SH=720
 while [ "${1:0:1}" == "-" ]
 do
     case $1 in
@@ -127,6 +131,11 @@ do
             $(dirname "$0")/vgp --list
             exit 0;
             ;;
+        -1080)
+            SW=1920
+            SH=1080
+            shift
+            ;;
         *)
             help_and_bail
             ;;
@@ -147,14 +156,7 @@ else
     OUTPUT="-f $*"
 fi
 
-#echo "ENC: $ENC_PROFILE"
-#echo "OUT: $OUTPUT"
-#exit 1
-
-
 # Various Geometry Things
-SW=1280
-SH=720
 BOX_W=540
 BOX_H=178
 SHUTTLE_W=45
@@ -169,7 +171,7 @@ LOGO_W=135
 LINE_H=44
 FONT_SIZE=32
 TEXT_OFFSET=10
-FONT=/usr/share/fonts/dejavu/DejaVuSansMono-Bold.ttf
+FONT=`fc-list -f "%{file[0]}\n" "DejaVu Sans Mono:style=Bold"`
 TIME_FORMAT="%b %d %X" # see https://strftime.org/
 
 # Logo - we'll use internal ffmpeg pattern if no PNG file was supplied
@@ -199,3 +201,4 @@ ffmpeg \
     " \
     $ENC_PROFILE \
     $OUTPUT
+
