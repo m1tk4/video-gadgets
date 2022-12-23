@@ -2,7 +2,7 @@
 #   This Dockerfile is only used in the build process on Github
 #
 
-FROM rockylinux/rockylinux:8
+FROM docker.io/rockylinux/rockylinux:8
 
 ENV container=docker
 ENV HOMEDIR=/home/build
