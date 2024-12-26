@@ -2,7 +2,7 @@
 #   This Dockerfile is only used in the build process on Github
 #
 
-FROM docker.io/rockylinux/rockylinux:8
+FROM docker.io/almalinux/9-base:latest
 
 ENV container=docker
 ENV HOMEDIR=/home/build

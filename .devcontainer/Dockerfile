@@ -5,7 +5,7 @@ USER root
 RUN mkdir /workspace
 
 RUN yum install -y yum-utils && \
-    yum -y install git mc rpm-build
+    yum -y install git mc rpm-build make podman
 
 COPY .bashrc /root/.bashrc
 

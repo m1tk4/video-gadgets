@@ -5,7 +5,7 @@ RPM_BUILD_CMD=rpmbuild --define "_topdir `mktemp -d`" --define "build_version $(
 
 build ::
 	podman build --pull --rm --tag $(RPM_DOCK_IMG) --file pkg/rpm/Dockerfile .
-	-@dpodman rm $(RPM_DOCK_CTR)
+	-@podman rm $(RPM_DOCK_CTR)
 	podman run -v $(PWD):/home/build:Z --name $(RPM_DOCK_CTR) $(RPM_DOCK_IMG) $(RPM_BUILD_CMD)
 
 clean ::
