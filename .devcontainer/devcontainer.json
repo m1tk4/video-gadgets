@@ -1,0 +1,17 @@
+{
+    "build": {
+        "context": ".",
+        "dockerfile": "./Dockerfile"
+    },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/,type=bind",
+    "workspaceFolder": "/workspace/",
+    "customizations": {
+        "vscode": {
+            "settings": {
+            },
+            "extensions": [
+                "ms-azuretools.vscode-docker"
+            ]
+        }
+    }
+}
